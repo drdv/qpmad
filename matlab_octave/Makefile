@@ -1,9 +1,12 @@
-octave: forceclean configure
-	octave --no-history --silent make.m
-
-matlab: forceclean configure
+matlab: configure
 	matlab -nosplash -nodesktop -nojvm -r 'make; quit' | tail +10
 
+octave: configure
+	octave --no-history --silent make.m
+
+install:
+	mv *.mex* ~/local/bin/qp_mex
+	cp qpmad.m ~/local/bin/qp_mex
 
 octave_test: octave_onlineqp octave_basic
 
@@ -21,6 +24,4 @@ configure:
 
 clean:
 	rm -f *.o
-
-forceclean: clean
 	rm -f *.mex*
