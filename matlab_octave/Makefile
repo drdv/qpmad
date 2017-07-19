@@ -1,3 +1,5 @@
+all: matlab install
+
 matlab: configure
 	matlab -nosplash -nodesktop -nojvm -r 'make; quit' | tail +10
 
@@ -5,6 +7,7 @@ octave: configure
 	octave --no-history --silent make.m
 
 install:
+	@echo "Installing ..."
 	mv *.mex* ~/local/bin/qp_mex
 	cp qpmad.m ~/local/bin/qp_mex
 
