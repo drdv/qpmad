@@ -44,6 +44,40 @@ namespace qpmad
 
 
         public:
+            ReturnStatus    solve(  double * primal,
+                                    double * H,
+                                    double * h,
+                                    double * lb,
+                                    double * ub,
+                                    double * A,
+                                    double * Alb,
+                                    double * Aub,
+                                    int n,
+                                    int m) {
+              // deep copy data (I can avoid this in qpmad)
+              QPVector e_primal = Eigen::Map<QPVector>(primal, n);
+              QPMatrix e_H = Eigen::Map<QPMatrix>(H, n, n);
+              QPVector e_h = Eigen::Map<QPVector>(h, n);
+              QPVector e_lb = Eigen::Map<QPVector>(lb, n);
+              QPVector e_ub = Eigen::Map<QPVector>(ub, n);
+              QPMatrix e_A = Eigen::Map<QPMatrix>(A, m, n);
+              QPVector e_Alb = Eigen::Map<QPVector>(Alb, m);
+              QPVector e_Aub = Eigen::Map<QPVector>(Aub, m);
+
+              ReturnStatus status (solve(  e_primal, e_H, e_h,
+                                           e_lb, e_ub,
+                                           e_A, e_Alb, e_Aub, SolverParameters()));
+
+              // copy solution
+              for (int i=0; i<n; ++i) { primal[i] = e_primal(i); }
+
+              // copy
+              // for (int i=0; i<n*n; ++i) { H[i] = e_H(i); }
+
+              return status;
+            }
+
+
             ReturnStatus    solve(  QPVector     & primal,
                                     QPMatrix     & H,
                                     const QPVector & h,

@@ -9,8 +9,8 @@
 # Disclaimer
 	This interface is not reliable: there are several hacks (ths is OK for my purposes)
 	   * I added a function 'solve' (to ./src/solver.h) with arguments arrays of doubles
-	     because it is not straightforward to make it work with Eigen matrices
+	     because it is not straightforward to make it work with Eigen matrices. I don't use
+		 const qualifier for h, lb, ub, A, Alb, Aub.
        * I ended up performing a deep copy inside the above mentioned solve function
 	     as I couldn't pass Map<...> objects due to the signature of the other solve functions
        * I assume that all numpy arrays have fortran storage
-       * I simply copied the config.h file in ./src (I am being sloppy)
